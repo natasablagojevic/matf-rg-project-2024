@@ -1,6 +1,9 @@
 {
   "resources": {
     "models": {
+      "zevs": {
+        "path": "zevs/zevs.obj"
+      }
     }
   },
   "window": {
