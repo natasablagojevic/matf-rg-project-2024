@@ -9,16 +9,17 @@
 namespace app {
 
 class MainController : public engine::core::Controller {
-
-public:
+private:
     void initialize() override;
     bool loop() override;
+    void update() override;
     void begin_draw() override;
     void draw() override;
     void end_draw() override;
     void draw_zeus();
+    void update_camera();
 
-private:
+public:
     std::string_view name() const override;
 
 };
