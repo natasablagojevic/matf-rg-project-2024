@@ -3,7 +3,6 @@
 //
 
 #include "../include/MainController.h"
-
 #include "engine/graphics/GraphicsController.hpp"
 #include "engine/graphics/OpenGL.hpp"
 #include "engine/platform/PlatformController.hpp"
@@ -12,8 +11,21 @@
 #include <spdlog/spdlog.h>
 namespace app {
 
+class MainPlatformEventObserver : public engine::platform::PlatformEventObserver {
+    void on_mouse_move(engine::platform::MousePosition position) override;
+};
+
+void MainPlatformEventObserver::on_mouse_move(engine::platform::MousePosition position) {
+    auto camera = engine::core::Controller::get<engine::graphics::GraphicsController>()->camera();
+    camera->rotate_camera(position.dx, position.dy);
+}
+
 void app::MainController::initialize() {
     spdlog::info("MainController initialized....");
+
+    auto platform = engine::core::Controller::get<engine::platform::PlatformController>();
+    platform->register_platform_event_observer(std::make_unique<MainPlatformEventObserver>());
+
     engine::graphics::OpenGL::enable_depth_testing();
 }
 
@@ -51,12 +63,12 @@ void MainController::update_camera() {
     }
 
     // gore
-    if (platform->key(engine::platform::KeyId::KEY_U).is_down()) {
+    if (platform->key(engine::platform::KeyId::KEY_UP).is_down()) {
         camera->move_camera(engine::graphics::Camera::Movement::UP, dt);
     }
 
     // dole
-    if (platform->key(engine::platform::KeyId::KEY_H).is_down()) {
+    if (platform->key(engine::platform::KeyId::KEY_DOWN).is_down()) {
         camera->move_camera(engine::graphics::Camera::Movement::DOWN, dt);
     }
 }
