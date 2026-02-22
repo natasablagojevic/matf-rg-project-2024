@@ -1,6 +1,6 @@
 # {NAME-OF-THE-PROJECT}
 
-{INDEX} - {STUDENT-FULL-NAME}  
+159/2020 - Natasa Blagojevic  
 {PROJECT DESCRIPTION}
 
 ## Controls
