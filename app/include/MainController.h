@@ -17,6 +17,7 @@ private:
     void draw() override;
     void end_draw() override;
     void draw_zeus();
+    void draw_styria();
     void update_camera();
 
 public:

@@ -3,6 +3,9 @@
     "models": {
       "zevs": {
         "path": "zevs/zevs.obj"
+      },
+      "styria": {
+        "path": "styria/styria.obj"
       }
     }
   },
