@@ -22,6 +22,7 @@ private:
     void draw_skybox();
     void draw_agent();
     void update_camera();
+    void update_agent();
 
 public:
     std::string_view name() const override;
