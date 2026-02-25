@@ -19,6 +19,7 @@ private:
     void draw_moon();
     void draw_island();
     void draw_ship();
+    void draw_skybox();
     void draw_agent();
     void update_camera();
 
