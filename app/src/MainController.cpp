@@ -32,6 +32,11 @@ void MainPlatformEventObserver::on_scroll(engine::platform::MousePosition positi
     graphics->perspective_params().FOV = glm::radians(camera->Zoom);
 }
 
+static glm::vec3 ship_position = glm::vec3(3.0f, 4.0f, -10.0f);
+static glm::vec3 island_position = glm::vec3(0.0f, 0.0f, -10.0f);
+static glm::vec3 agent_position = glm::vec3(0.0f, 0.0f, -10.0f);
+static glm::vec3 moon_position = glm::vec3(-2.5f, 2.5f, -10.f);
+
 void app::MainController::initialize() {
     spdlog::info("MainController initialized....");
 
@@ -163,20 +168,126 @@ void app::MainController::begin_draw() {
 // }
 
 void MainController::draw_moon() {
+    auto resources = engine::core::Controller::get<engine::resources::ResourcesController>();
+    auto graphics = engine::core::Controller::get<engine::graphics::GraphicsController>();
 
+    engine::resources::Model *moon = resources->model("moon");
+
+    engine::resources::Shader *shader = resources->shader("basic");
+    shader->use();
+
+    shader->set_mat4("V", graphics->camera()->view_matrix());
+    shader->set_mat4("P", graphics->projection_matrix());
+
+    float t = engine::core::Controller::get<engine::platform::PlatformController>()->frame_time().current;
+
+    glm::mat4 M = glm::mat4(1.0f);
+    M = glm::translate(M, moon_position);
+    M = glm::scale(M, glm::vec3(0.085f));
+    // M = glm::translate(M, glm::vec3(glm::cos(t)*50.0f, 0.0f, glm::sin(t)*50.f));
+    // M = glm::rotate(M, glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    M = glm::rotate(M, glm::sign(t*0.5f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+    shader->set_mat4("M", M);
+
+    auto camera = engine::core::Controller::get<engine::graphics::GraphicsController>()->camera();
+
+    shader->set_vec3("spotLight.pos", camera->Position);
+    shader->set_vec3("spotLight.ambient", glm::vec3(0.0f));
+    shader->set_vec3("spotLight.diffuse", glm::vec3(1.2f, 1.2f, 1.3f));
+    shader->set_vec3("spotLight.specular", glm::vec3(1.0f));
+    shader->set_vec3("spotLight.clq", glm::vec3(1.0f, 0.09f, 0.032f));
+
+    shader->set_vec3("spotLight.direction", camera->Front);
+    shader->set_float("spotLight.cutOff", glm::cos(glm::radians(12.0f)));
+    shader->set_float("spotLight.outerCutOff", glm::cos(glm::radians(17.5f)));
+
+    shader->set_float("material.shi", 32.0f);
+
+    shader->set_vec3("dirLight.dir", glm::normalize(moon_position - island_position));
+    shader->set_vec3("dirLight.ambient", glm::vec3(0.0f, 0.0f, 0.5f));
+    shader->set_vec3("dirLight.diffuse", glm::vec3(1.2f));
+    shader->set_vec3("dirLight.specular", glm::vec3(0.3f));
+    shader->set_bool("blin", false);
+
+    moon->draw(shader);
 }
 void MainController::draw_island() {
+    auto resources = engine::core::Controller::get<engine::resources::ResourcesController>();
+    auto graphics = engine::core::Controller::get<engine::graphics::GraphicsController>();
+
+    engine::resources::Model *island = resources->model("space_island");
+
+    engine::resources::Shader *shader = resources->shader("basic");
+    shader->use();
+
+    shader->set_mat4("V", graphics->camera()->view_matrix());
+    shader->set_mat4("P", graphics->projection_matrix());
+
+    float t = engine::core::Controller::get<engine::platform::PlatformController>()->frame_time().current;
+
+    glm::mat4 M = glm::mat4(1.0f);
+    M = glm::translate(M, island_position);
+    M = glm::scale(M, glm::vec3(0.25f));
+    M = glm::rotate(M, glm::abs(glm::sign(t*0.5f)*0.2f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+    shader->set_mat4("M", M);
+
+    island->draw(shader);
 }
 void MainController::draw_ship() {
+    auto resources = engine::core::Controller::get<engine::resources::ResourcesController>();
+    auto graphics = engine::core::Controller::get<engine::graphics::GraphicsController>();
+
+    engine::resources::Model *ship = resources->model("space_ship");
+
+    engine::resources::Shader *shader = resources->shader("basic");
+    shader->use();
+
+    shader->set_mat4("V", graphics->camera()->view_matrix());
+    shader->set_mat4("P", graphics->projection_matrix());
+
+    float t = engine::core::Controller::get<engine::platform::PlatformController>()->frame_time().current;
+
+    glm::mat4 M = glm::mat4(1.0f);
+    M = glm::translate(M, ship_position);
+    M = glm::scale(M, glm::vec3(0.085f));
+    M = glm::rotate(M, glm::sign(t)*0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
+
+    shader->set_mat4("M", M);
+
+    ship->draw(shader);
 }
 void MainController::draw_agent() {
+    auto resources = engine::core::Controller::get<engine::resources::ResourcesController>();
+    auto graphics = engine::core::Controller::get<engine::graphics::GraphicsController>();
+
+    engine::resources::Model *agent = resources->model("agent");
+
+    engine::resources::Shader *shader = resources->shader("basic");
+    shader->use();
+
+    shader->set_mat4("V", graphics->camera()->view_matrix());
+    shader->set_mat4("P", graphics->projection_matrix());
+
+    float t = engine::core::Controller::get<engine::platform::PlatformController>()->frame_time().current;
+
+    agent_position.y = glm::sin(t)*0.1f;
+
+    glm::mat4 M = glm::mat4(1.0f);
+    M = glm::translate(M, agent_position);
+    M = glm::scale(M, glm::vec3(0.2f));
+
+    shader->set_mat4("M", M);
+
+    agent->draw(shader);
 }
 
 void app::MainController::draw() {
-    draw_moon();
-    draw_island();
     draw_ship();
+    draw_island();
     draw_agent();
+    draw_moon();
 }
 
 void app::MainController::end_draw() {
