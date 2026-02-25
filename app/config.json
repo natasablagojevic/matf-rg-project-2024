@@ -1,11 +1,17 @@
 {
   "resources": {
     "models": {
-      "zevs": {
-        "path": "zevs/zevs.obj"
+      "agent": {
+        "path": "agent/agent2.obj"
       },
-      "styria": {
-        "path": "styria/styria.obj"
+      "space_island": {
+        "path": "space_island/space_island.obj"
+      },
+      "space_ship": {
+        "path": "space_ship/space_ship.obj"
+      },
+      "moon": {
+        "path": "moon/moon.obj"
       }
     }
   },

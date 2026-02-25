@@ -16,8 +16,10 @@ private:
     void begin_draw() override;
     void draw() override;
     void end_draw() override;
-    void draw_zeus();
-    void draw_styria();
+    void draw_moon();
+    void draw_island();
+    void draw_ship();
+    void draw_agent();
     void update_camera();
 
 public:
