@@ -15,11 +15,21 @@ namespace app {
 
 class MainPlatformEventObserver : public engine::platform::PlatformEventObserver {
     void on_mouse_move(engine::platform::MousePosition position) override;
+    void on_scroll(engine::platform::MousePosition position) override;
 };
 
 void MainPlatformEventObserver::on_mouse_move(engine::platform::MousePosition position) {
     auto camera = engine::core::Controller::get<engine::graphics::GraphicsController>()->camera();
     camera->rotate_camera(position.dx, position.dy);
+}
+
+void MainPlatformEventObserver::on_scroll(engine::platform::MousePosition position) {
+    auto graphics = engine::core::Controller::get<engine::graphics::GraphicsController>();
+    auto camera = graphics->camera();
+    auto mouse = engine::core::Controller::get<engine::platform::PlatformController>()->mouse();
+
+    camera->zoom(mouse.scroll);
+    graphics->perspective_params().FOV = glm::radians(camera->Zoom);
 }
 
 void app::MainController::initialize() {
@@ -153,6 +163,7 @@ void app::MainController::begin_draw() {
 // }
 
 void MainController::draw_moon() {
+
 }
 void MainController::draw_island() {
 }
