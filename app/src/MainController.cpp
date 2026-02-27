@@ -142,8 +142,6 @@ void MainController::draw_ship() {
 
     shader->set_mat4("M", M);
 
-    shader->set_float("blin", false);
-
     ship->draw(shader);
 }
 
@@ -238,7 +236,7 @@ void MainController::draw_moon() {
     shader->set_vec3("dirLight.diffuse", glm::vec3(1.2f));
     shader->set_vec3("dirLight.specular", glm::vec3(0.3f));
 
-    shader->set_float("material.shi", 32.0f);
+    shader->set_float("blin", false);
 
     moon->draw(shader);
 }

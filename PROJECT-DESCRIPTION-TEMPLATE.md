@@ -14,7 +14,8 @@
 `RIGHT` -> agent moves right  
 `LEFT` -> agent moves left   
 `ESC` -> close the program   
-`SCROLL` -> zoom in/out
+`SCROLL` -> zoom in/out  
+`SPACE` -> agent showing   
 
 ## Features
 
@@ -42,7 +43,7 @@
 
 ## Models:
 
-[Moon](https://sketchfab.com/3d-models/photorealistic-moon-060795963d43499f96dbf88f3ec1da89)   <br>
+[Moon](https://sketchfab.com/3d-models/photorealistic-moon-060795963d43499f96dbf88f3ec1da89)  !!! must be downloaded and put it in the project [app/resources/modles/moon] !!! <br>
 [Agent](https://sketchfab.com/3d-models/stylized-sci-fi-soldier-animated-9e19e517429c4077b800273890186456) <br>
 [Space island](https://sketchfab.com/3d-models/interdimensional-zen-gallery-space-1bd9d26e53e044eea56a2837ffd75136) <br>
 [Space ship](https://sketchfab.com/3d-models/space-station-0da4a24e7edd49159737675ffcc06228)
