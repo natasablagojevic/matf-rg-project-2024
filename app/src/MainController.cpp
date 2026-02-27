@@ -36,6 +36,7 @@ void MainPlatformEventObserver::on_scroll(engine::platform::MousePosition positi
 static glm::vec3 ship_position = glm::vec3(3.0f, 4.0f, -10.0f);
 static glm::vec3 island_position = glm::vec3(0.0f, 0.0f, -10.0f);
 static glm::vec3 agent_position = glm::vec3(0.0f, 0.0f, -10.0f); // y = sint
+static glm::vec3 agent_position_origin = glm::vec3(0.0f, 0.0f, -10.0f);
 static glm::vec3 moon_position = glm::vec3(-3.0f, 3.0f, -10.0f);
 static bool agent_alive = true;
 
@@ -109,6 +110,11 @@ void MainController::update_agent() {
 
     if (agent_position.z <= -11.3f) {
         agent_alive = false;
+    }
+
+    if (platform->key(engine::platform::KeyId::KEY_SPACE).is_down()) {
+        agent_alive = true;
+        agent_position = agent_position_origin;
     }
 }
 
@@ -221,7 +227,7 @@ void MainController::draw_moon() {
 
     shader->set_vec3("spotLight.pos", ship_position);
     shader->set_vec3("spotLight.ambient", glm::vec3(0.0f));
-    shader->set_vec3("spotLight.diffuse", glm::vec3(1.2f, 1.2f, 1.3f));
+    shader->set_vec3("spotLight.diffuse", glm::vec3(1.0f, 0.95f, 0.85f));
     shader->set_vec3("spotLight.specular", glm::vec3(1.0f));
     shader->set_vec3("spotLight.clq", glm::vec3(1.0f, 0.09f, 0.032f));
 
